@@ -2,6 +2,8 @@
 #include <unordered_set>
 #include "euler_tour_tree.h"
 
+using namespace dc;
+
 TEST(euler_tour_tree, check_vertices_index) {
     euler_tour_tree ett(5);
     EXPECT_THROW(ett.cut(3, 10), euler_tour_tree_exception);
@@ -16,18 +18,18 @@ TEST(euler_tour_tree, check_vertices_index) {
     EXPECT_THROW(ett.link(4, 5), euler_tour_tree_exception);
     EXPECT_NO_THROW(ett.link(3, 2));
 
-    EXPECT_THROW(ett.is_connected(3, 10), euler_tour_tree_exception);
-    EXPECT_THROW(ett.is_connected(10, 3), euler_tour_tree_exception);
-    EXPECT_THROW(ett.is_connected(10, 10), euler_tour_tree_exception);
-    EXPECT_THROW(ett.is_connected(4, 5), euler_tour_tree_exception);
-    EXPECT_NO_THROW(ett.is_connected(3, 2));
+    EXPECT_THROW(ett.are_connected(3, 10), euler_tour_tree_exception);
+    EXPECT_THROW(ett.are_connected(10, 3), euler_tour_tree_exception);
+    EXPECT_THROW(ett.are_connected(10, 10), euler_tour_tree_exception);
+    EXPECT_THROW(ett.are_connected(4, 5), euler_tour_tree_exception);
+    EXPECT_NO_THROW(ett.are_connected(3, 2));
 }
 
 TEST(euler_tour_tree, reflexive) {
     const size_t N = 10;
     euler_tour_tree ett(N);
     for (size_t i = 0; i < N; ++i) {
-        EXPECT_TRUE(ett.is_connected(i, i));
+        EXPECT_TRUE(ett.are_connected(i, i));
     }
 }
 
@@ -36,7 +38,7 @@ TEST(euler_tour_tree, empty) {
     euler_tour_tree ett(N);
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
-            EXPECT_EQ(ett.is_connected(i, j), i == j);
+            EXPECT_EQ(ett.are_connected(i, j), i == j);
         }
     }
 }
@@ -67,12 +69,12 @@ private:
 TEST(euler_tour_tree, only_link) {
     const size_t N = 10;
     euler_tour_tree ett(N);
-    EXPECT_FALSE(ett.is_connected(0, 1));
+    EXPECT_FALSE(ett.are_connected(0, 1));
     ett.link(0, 1);
-    EXPECT_TRUE(ett.is_connected(0, 1));
-    EXPECT_FALSE(ett.is_connected(0, 2));
+    EXPECT_TRUE(ett.are_connected(0, 1));
+    EXPECT_FALSE(ett.are_connected(0, 2));
     ett.link(1, 2);
-    EXPECT_TRUE(ett.is_connected(0, 2));
+    EXPECT_TRUE(ett.are_connected(0, 2));
 }
 
 TEST(euler_tour_tree, only_link_random) {
@@ -91,11 +93,11 @@ TEST(euler_tour_tree, only_link_random) {
             EXPECT_FALSE(d.is_connected(u, v));
             d.link(u, v);
             EXPECT_TRUE(d.is_connected(u, v));
-            EXPECT_FALSE(ett.is_connected(u, v));
+            EXPECT_FALSE(ett.are_connected(u, v));
             ett.link(u, v);
-            EXPECT_TRUE(ett.is_connected(u, v));
+            EXPECT_TRUE(ett.are_connected(u, v));
         } else {
-            EXPECT_EQ(ett.is_connected(u, v), d.is_connected(u, v));
+            EXPECT_EQ(ett.are_connected(u, v), d.is_connected(u, v));
         }
     }
 }
@@ -103,11 +105,11 @@ TEST(euler_tour_tree, only_link_random) {
 TEST(euler_tour_tree, link_cut) {
     const size_t N = 10;
     euler_tour_tree ett(N);
-    EXPECT_FALSE(ett.is_connected(0, 1));
+    EXPECT_FALSE(ett.are_connected(0, 1));
     ett.link(0, 1);
-    EXPECT_TRUE(ett.is_connected(0, 1));
+    EXPECT_TRUE(ett.are_connected(0, 1));
     ett.cut(0, 1);
-    EXPECT_FALSE(ett.is_connected(0, 1));
+    EXPECT_FALSE(ett.are_connected(0, 1));
 }
 
 struct stupid_dc {
@@ -185,7 +187,7 @@ TEST(euler_tour_tree, link_cut_random) {
             case 2: {
                 size_t u = rand_size_t(N);
                 size_t v = rand_size_t(N);
-                EXPECT_EQ(ett.is_connected(u, v), dc.is_connected(u, v));
+                EXPECT_EQ(ett.are_connected(u, v), dc.is_connected(u, v));
                 break;
             }
             default:
@@ -271,7 +273,7 @@ TEST(treap, split) {
 }
 
 TEST(dc, check_vertices_index) {
-    dc dc(5);
+    dynamic_connectivity dc(5);
     EXPECT_THROW(dc.cut(3, 10), dc_exception);
     EXPECT_THROW(dc.cut(10, 3), dc_exception);
     EXPECT_THROW(dc.cut(10, 10), dc_exception);
@@ -284,27 +286,27 @@ TEST(dc, check_vertices_index) {
     EXPECT_THROW(dc.link(4, 5), dc_exception);
     EXPECT_NO_THROW(dc.link(3, 2));
 
-    EXPECT_THROW(dc.is_connected(3, 10), dc_exception);
-    EXPECT_THROW(dc.is_connected(10, 3), dc_exception);
-    EXPECT_THROW(dc.is_connected(10, 10), dc_exception);
-    EXPECT_THROW(dc.is_connected(4, 5), dc_exception);
-    EXPECT_NO_THROW(dc.is_connected(3, 2));
+    EXPECT_THROW(dc.are_connected(3, 10), dc_exception);
+    EXPECT_THROW(dc.are_connected(10, 3), dc_exception);
+    EXPECT_THROW(dc.are_connected(10, 10), dc_exception);
+    EXPECT_THROW(dc.are_connected(4, 5), dc_exception);
+    EXPECT_NO_THROW(dc.are_connected(3, 2));
 }
 
 TEST(dc, reflexive) {
     const size_t N = 10;
-    dc dc(N);
+    dynamic_connectivity dc(N);
     for (size_t i = 0; i < N; ++i) {
-        EXPECT_TRUE(dc.is_connected(i, i));
+        EXPECT_TRUE(dc.are_connected(i, i));
     }
 }
 
 TEST(dc, empty) {
     const size_t N = 10;
-    dc dc(N);
+    dynamic_connectivity dc(N);
     for (size_t i = 0; i < N; ++i) {
         for (size_t j = 0; j < N; ++j) {
-            EXPECT_EQ(dc.is_connected(i, j), i == j);
+            EXPECT_EQ(dc.are_connected(i, j), i == j);
         }
     }
 }
@@ -342,7 +344,7 @@ TEST(treap, info) {
 }
 
 void test_dc_link_cut_random_forest(size_t N, size_t M) {
-    dc real_dc(N);
+    dynamic_connectivity real_dc(N);
     stupid_dc dc(N);
     std::set<std::pair<size_t, size_t>> edges;
     for (size_t i = 0; i < M; ++i) {
@@ -371,7 +373,7 @@ void test_dc_link_cut_random_forest(size_t N, size_t M) {
             case 2: {
                 size_t u = rand_size_t(N);
                 size_t v = rand_size_t(N);
-                EXPECT_EQ(real_dc.is_connected(u, v), dc.is_connected(u, v));
+                EXPECT_EQ(real_dc.are_connected(u, v), dc.is_connected(u, v));
                 break;
             }
             default:
@@ -405,31 +407,31 @@ TEST(dc, link_cut_random_forest_v100_op1000000) {
 }
 
 TEST(dc, link_cut) {
-    dc dc(3);
+    dynamic_connectivity dc(3);
     dc.link(0, 1);
-    EXPECT_TRUE(dc.is_connected(0, 1));
-    EXPECT_FALSE(dc.is_connected(0, 2));
-    EXPECT_FALSE(dc.is_connected(1, 2));
+    EXPECT_TRUE(dc.are_connected(0, 1));
+    EXPECT_FALSE(dc.are_connected(0, 2));
+    EXPECT_FALSE(dc.are_connected(1, 2));
     dc.link(0, 2);
-    EXPECT_TRUE(dc.is_connected(0, 2));
-    EXPECT_TRUE(dc.is_connected(0, 1));
-    EXPECT_TRUE(dc.is_connected(2, 1));
+    EXPECT_TRUE(dc.are_connected(0, 2));
+    EXPECT_TRUE(dc.are_connected(0, 1));
+    EXPECT_TRUE(dc.are_connected(2, 1));
     dc.link(1, 2);
-    EXPECT_TRUE(dc.is_connected(0, 2));
-    EXPECT_TRUE(dc.is_connected(0, 1));
-    EXPECT_TRUE(dc.is_connected(2, 1));
+    EXPECT_TRUE(dc.are_connected(0, 2));
+    EXPECT_TRUE(dc.are_connected(0, 1));
+    EXPECT_TRUE(dc.are_connected(2, 1));
     dc.cut(0, 1);
-    EXPECT_TRUE(dc.is_connected(0, 2));
-    EXPECT_TRUE(dc.is_connected(0, 1));
-    EXPECT_TRUE(dc.is_connected(2, 1));
+    EXPECT_TRUE(dc.are_connected(0, 2));
+    EXPECT_TRUE(dc.are_connected(0, 1));
+    EXPECT_TRUE(dc.are_connected(2, 1));
     dc.cut(0, 2);
-    EXPECT_FALSE(dc.is_connected(0, 2));
-    EXPECT_FALSE(dc.is_connected(0, 1));
-    EXPECT_TRUE(dc.is_connected(2, 1));
+    EXPECT_FALSE(dc.are_connected(0, 2));
+    EXPECT_FALSE(dc.are_connected(0, 1));
+    EXPECT_TRUE(dc.are_connected(2, 1));
 }
 
 void test_dc_link_cut_random(size_t N, size_t M) {
-    dc real_dc(N);
+    dynamic_connectivity real_dc(N);
     stupid_dc dc(N, false);
     std::set<std::pair<size_t, size_t>> edges;
     for (size_t i = 0; i < M; ++i) {
@@ -458,7 +460,7 @@ void test_dc_link_cut_random(size_t N, size_t M) {
             case 2: {
                 size_t u = rand_size_t(N);
                 size_t v = rand_size_t(N);
-                EXPECT_EQ(real_dc.is_connected(u, v), dc.is_connected(u, v));
+                EXPECT_EQ(real_dc.are_connected(u, v), dc.is_connected(u, v));
                 break;
             }
             default:

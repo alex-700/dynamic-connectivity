@@ -29,7 +29,7 @@ double benchmark(size_t n, size_t m, size_t its = 1) {
     for (size_t it = 0; it < its; ++it) {
         auto edges = get_random_edges(n, m);
         std::chrono::time_point<std::chrono::system_clock> start = std::chrono::system_clock::now();
-        dc d(n);
+        dc::dynamic_connectivity d(n);
         for (const auto& p : edges)
             d.link(p.first, p.second);
         for (const auto& p : edges)

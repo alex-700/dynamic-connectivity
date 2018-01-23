@@ -18,3 +18,10 @@ report/*.fot
 report/*.cb
 report/*.cb2
 report/auto/
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+*Notes.bib

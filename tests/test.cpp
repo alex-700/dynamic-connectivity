@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <unordered_set>
-#include "euler_tour_tree.h"
+#include "dynamic_connectivity.h"
 
 using namespace dc;
 

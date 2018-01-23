@@ -14,14 +14,14 @@ include_directories("include/")
 link_libraries(fmt::fmt-header-only)
 add_subdirectory(fmt EXCLUDE_FROM_ALL)
 
-add_executable(benchmark benchmarks/main.cpp include/euler_tour_tree.h)
+add_executable(benchmark benchmarks/main.cpp include/dynamic_connectivity.h)
 target_include_directories(benchmark PRIVATE ${PYTHON_INCLUDE_DIRS} matplotlib-cpp)
 target_link_libraries(benchmark PRIVATE ${PYTHON_LIBRARIES})
 
 enable_testing()
 
 add_executable(dynamic_connectivity_test tests/test.cpp
-        include/euler_tour_tree.h)
+        include/dynamic_connectivity.h)
 target_link_libraries(dynamic_connectivity_test PRIVATE gtest gtest_main)
 
 add_test(NAME dc_test COMMAND dynamic_connectivity_test)

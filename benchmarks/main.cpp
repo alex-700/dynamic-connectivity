@@ -6,7 +6,7 @@
 #include <chrono>
 
 #include "matplotlibcpp.h"
-#include "euler_tour_tree.h"
+#include "dynamic_connectivity.h"
 
 namespace plt = matplotlibcpp;
 

@@ -1,8 +1,20 @@
-# CLion
+## CLion
 .idea/
 
-# CMake
+## CMake
 cmake-build-debug/
 cmake-build-relwithdebinfo/
 
-
+## LaTeX 
+report/*.aux
+report/*.lof
+report/*.log
+report/*.lot
+report/*.fls
+report/*.out
+report/*.toc
+report/*.fmt
+report/*.fot
+report/*.cb
+report/*.cb2
+report/auto/
